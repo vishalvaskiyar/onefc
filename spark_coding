@@ -9,7 +9,7 @@ from pyspark.sql.types import StringType, IntegerType, TimestampType
 from pyspark.sql.types import *
 from pyspark.sql.functions import unix_timestamp, from_unixtime
 
-events = spark.read.format("csv").option('header', True).load("s3://fg-cnd.dp.internal.workspace/home/u_internal.vishal/data_3.csv")
+events = spark.read.format("csv").option('header', True).load("s3://readpath/u_internal.vishal/data_3.csv")
 events = (events.withColumnRenamed("Person Id", "person_id").withColumnRenamed("Floor Access DateTime","datetime").withColumnRenamed("Floor Level","floor_level").withColumnRenamed("building","building"))
 
 events = events.withColumn('datetime', to_timestamp(events.datetime,'MM/dd/yy HH:mm')).withColumn("floor_level", events.floor_level.cast('int'))
