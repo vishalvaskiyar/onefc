@@ -1,3 +1,5 @@
+#Please use spark shell to see the results, place a file in hdfs or s3 or local to test the result
+
 from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql.functions import *
 from pyspark.sql.types import DateType
