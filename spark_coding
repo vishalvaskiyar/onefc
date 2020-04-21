@@ -1,0 +1,15 @@
+from pyspark.sql import SparkSession, DataFrame
+from pyspark.sql.functions import *
+from pyspark.sql.types import DateType
+from datetime import datetime, timedelta
+from pyspark.sql.types import StructType
+from pyspark.sql.types import StringType, IntegerType, TimestampType
+from pyspark.sql.types import *
+from pyspark.sql.functions import unix_timestamp, from_unixtime
+
+events = spark.read.format("csv").option('header', True).load("s3://fg-cnd.dp.internal.workspace/home/u_internal.vishal/data_3.csv")
+events = (events.withColumnRenamed("Person Id", "person_id").withColumnRenamed("Floor Access DateTime","datetime").withColumnRenamed("Floor Level","floor_level").withColumnRenamed("building","building"))
+
+events = events.withColumn('datetime', to_timestamp(events.datetime,'MM/dd/yy HH:mm')).withColumn("floor_level", events.floor_level.cast('int'))
+
+events.coalesce(1).write.format('json').save('s3://writepath/events.json')
