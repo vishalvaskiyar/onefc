@@ -1,0 +1,40 @@
+#create table events(Schema Mentioned below)
+
+create table events(
+   id INT NOT NULL AUTO_INCREMENT,
+   event_name VARCHAR(100) NOT NULL,
+   people_count int  NOT NULL,
+   PRIMARY KEY (id)
+);
+===========================
+#Insert into table
+
+INSERT INTO events
+    (event_name,people_count)
+VALUES
+    ('event_1',30),
+    ('event_2',600),
+    ('event_3',970),
+    ('event_4',940),
+    ('event_5',500),
+    ('event_6',440),
+    ('event_7',76),
+    ('event_8',89),
+    ('event_9',40),
+    ('event_10',1200);
+=============================
+#run query in mysql
+
+ select distinct e1.*
+from events e1, events e2, events e3
+where e1.people_count >= 100 and e2.people_count >= 100 and e3.people_count >= 100
+and
+(
+      (e1.id - e2.id = 1 and e1.id - e3.id = 2 and e2.id - e3.id =1)
+    or
+    (e2.id - e1.id = 1 and e2.id - e3.id = 2 and e1.id - e3.id =1)
+    or
+    (e3.id - e2.id = 1 and e2.id - e1.id =1 and e3.id - e1.id = 2)
+)
+order by e1.id limit 3
+;
